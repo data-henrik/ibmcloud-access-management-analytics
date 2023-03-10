@@ -54,14 +54,14 @@ def getUsers(iam_token, account_id):
     payload = {"pagesize": 100}
     return handleAPIAccess(url, headers, payload, "next_url", "resources")
 
-# retrieve all service IDs in the account
+# retrieve all service IDs in the account, https://cloud.ibm.com/apidocs/iam-identity-token-api#list-service-ids
 def getServiceIDs(iam_token, account_id):
     url = 'https://iam.cloud.ibm.com/v1/serviceids'
     headers = { "Authorization" : "Bearer "+iam_token }
     payload = {"account_id": account_id, "pagesize": 100}
     return handleAPIAccess(url, headers, payload, "next", "serviceids")
 
-
+# retrieve Trusted Profiles, https://cloud.ibm.com/apidocs/iam-identity-token-api#list-profiles
 def getTrustedProfiles(iam_token, account_id):
     url = f"https://iam.cloud.ibm.com/v1/profiles"
     headers = { "Authorization" : "Bearer "+iam_token }
@@ -69,19 +69,21 @@ def getTrustedProfiles(iam_token, account_id):
     response = requests.get(url, headers=headers, params=payload)
     return handleAPIAccess(url, headers, payload, "next", "profiles")
 
+# retrieve links between TPs and compute resources, https://cloud.ibm.com/apidocs/iam-identity-token-api#list-links
 def getTrustedProfileLinks(iam_token, tp_id):
     url = f"https://iam.cloud.ibm.com/v1/profiles/{tp_id}/links"
     headers = { "Authorization" : "Bearer "+iam_token }
     response = requests.get(url, headers=headers)
     return response.json()
 
-
+# see https://cloud.ibm.com/apidocs/resource-controller/resource-manager#list-resource-groups
 def getResourceGroups(iam_token):
     url = f'https://resource-controller.cloud.ibm.com/v2/resource_groups'
     headers = { "Authorization" : "Bearer "+iam_token }
     response = requests.get(url, headers=headers)
     return response.json()
 
+# see https://cloud.ibm.com/apidocs/resource-controller/resource-controller#list-resource-instances
 def getResourceInstances(iam_token):
     url = f'https://resource-controller.cloud.ibm.com/v2/resource_instances'
     headers = { "Authorization" : "Bearer "+iam_token }
@@ -89,7 +91,7 @@ def getResourceInstances(iam_token):
     return handleAPIAccess(url, headers, payload, "next_url", "resources")
 
 
-# Obtain access groups and handle paging
+# Obtain access groups and handle paging, https://cloud.ibm.com/apidocs/iam-access-groups#list-access-groups
 def getAccessGroups(iam_token, account_id):
     url = 'https://iam.cloud.ibm.com/v2/groups'
     # Empty transaction ID here in the code, but you could set it for better tracking
@@ -104,6 +106,7 @@ def getAccessGroups(iam_token, account_id):
         groups["groups"].extend(curr_response["groups"])
     return groups   
 
+# see https://cloud.ibm.com/apidocs/iam-access-groups#list-access-group-members
 def getAccessGroupMembers(iam_token, account_id, groupID):
     url = f"https://iam.cloud.ibm.com/v2/groups/{groupID}/members"
     # Empty transaction ID here in the code, but you could set it for better tracking
@@ -120,6 +123,8 @@ def getAccessGroupMembers(iam_token, account_id, groupID):
 
 
 # Obtain the policies, either for an access group or related to an IAM ID (user, service ID)
+# see https://cloud.ibm.com/apidocs/iam-policy-management#list-policies
+# Note that v1 is used
 def getAccessPolicies(iam_token, account_id, access_group_id=None, user_iam_id=None):
     url = 'https://iam.cloud.ibm.com/v1/policies'
     headers = { "Authorization" : "Bearer "+iam_token, "accept": "application/json" }

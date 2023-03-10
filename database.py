@@ -1,8 +1,11 @@
+# Build a database with IBM Cloud access management data
+# for the account identified by its API key
+#
+# Written by 2023 Henrik Loeser, IBM, hloeser@de.ibm.com
+
 import requests, json, sys
-from sqlalchemy import MetaData, create_engine, insert
-from sqlalchemy import Table, Column, Integer, String, ForeignKey
+from sqlalchemy import create_engine
 from utils import CloudTables, insert, retrieve
-from urllib.parse import urljoin
 
 
 def readApiKey(filename):
@@ -34,7 +37,7 @@ if __name__== "__main__":
 
     accounts_data=retrieve.getAccounts(iam_token)
         
-    print ("Getting data")
+    print ("Fetching access data")
     user_data=retrieve.getUsers(iam_token, account_id)
     serviceid_data=retrieve.getServiceIDs(iam_token, account_id)
     group_data=retrieve.getResourceGroups(iam_token)
@@ -61,12 +64,12 @@ if __name__== "__main__":
 
 
     with engine.begin() as connection:
-        print ("inserting batch 2")
+        print ("inserting AG members")
         for group in access_group_data['groups']:
             agmembers=retrieve.getAccessGroupMembers(iam_token, account_id, group['id'])
             insert.insertAccessGroupMembers(agmembers['members'], connection, tables.access_group_members, group['id'])
 
+    print ("processing policies")
     policy_data=retrieve.getAccessPolicies(iam_token, account_id)
     with engine.begin() as connection:
-        print ("inserting policies")
         insert.insertAccessPolicies(policy_data, connection, tables, account_id)
