@@ -1,10 +1,11 @@
 from sqlalchemy import create_engine, insert
 
 def insertAccounts(accDetails, connection, tablename):
-    connection.execute(insert(tablename).values(account_id=accDetails['metadata']['guid'],
-                                 name=accDetails['entity']['name'],
-                                 owner=accDetails['entity']['primary_owner']['ibmid'],
-    ))
+    for item in accDetails:
+        connection.execute(insert(tablename).values(account_id=item['metadata']['guid'],
+                                 name=item['entity']['name'],
+                                 owner=item['entity']['primary_owner']['ibmid'],
+        ))
 
 def insertUsers(user_data, connection, tablename):
     for item in user_data:

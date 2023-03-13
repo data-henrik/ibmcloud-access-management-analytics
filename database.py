@@ -3,7 +3,7 @@
 #
 # Written by 2023 Henrik Loeser, IBM, hloeser@de.ibm.com
 
-import requests, json, sys
+import requests, json, sys, os, base64
 from sqlalchemy import create_engine
 from utils import CloudTables, insert, retrieve
 
@@ -14,17 +14,27 @@ def readApiKey(filename):
     api_key = credentials.get('apikey')
     return api_key
 
-
+# use split and base64 to get to the content of the IAM token
+def extractAccount(iam_token):
+    data = iam_token.split('.')
+    padded = data[1] + "="*divmod(len(data[1]),4)[1]
+    jsondata = json.loads(base64.urlsafe_b64decode(padded))
+    return jsondata
 
 if __name__== "__main__":
 
-    credfile=sys.argv[1]
+    iam_token=os.getenv("IBMCLOUD_TOKEN", None)
+    if iam_token is None:
+        print("Need IBM Cloud access token passed as environment variable IBMCLOUD_TOKEN.")
+        exit
 
-    print ("Reading credentials")
-    apiKey=readApiKey(credfile)
-    print ("generating auth tokens")
-    authTokens=retrieve.getAuthTokens(api_key=apiKey)
-    iam_token=authTokens["access_token"]   
+    # credfile=sys.argv[1]
+
+    # print ("Reading credentials")
+    # apiKey=readApiKey(credfile)
+    # print ("generating auth tokens")
+    # authTokens=retrieve.getAuthTokens(api_key=apiKey)
+    # iam_token=authTokens["access_token"]   
 
     # create database tables
     engine = create_engine("sqlite:///iaminsights.sqlite3")
@@ -32,8 +42,10 @@ if __name__== "__main__":
     tables.createTables(engine)
 
     print ("Getting account details")
-    accDetails=retrieve.getIAMDetails(api_key=apiKey, iam_token=iam_token)
-    account_id=accDetails['account_id']
+    token_data=extractAccount(iam_token)
+    account_id=token_data["account"]["bss"]
+    #accDetails=retrieve.getIAMDetails(api_key=apiKey, iam_token=iam_token)
+    #account_id=accDetails['account_id']
 
     accounts_data=retrieve.getAccounts(iam_token)
         
@@ -46,7 +58,8 @@ if __name__== "__main__":
 
     with engine.begin() as connection:
         print ("inserting")
-        insert.insertAccounts(accounts_data['resources'][0], connection, tables.accounts)
+        print(json.dumps(accounts_data))
+        insert.insertAccounts(accounts_data['resources'], connection, tables.accounts)
         insert.insertUsers(user_data['resources'], connection, tables.users)
         insert.insertServiceIDs(serviceid_data['serviceids'], connection, tables.serviceids)
         insert.insertAccessGroups(access_group_data['groups'], connection, tables.access_groups, account_id)
