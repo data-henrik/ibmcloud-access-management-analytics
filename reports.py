@@ -1,3 +1,8 @@
+# Run some simple reports against the database with 
+# IBM Cloud access management data
+#
+# Written by 2023 Henrik Loeser, IBM, hloeser@de.ibm.com
+
 import json, sys
 from sqlalchemy import MetaData, create_engine, insert, text
 from sqlalchemy import Table, Column, Integer, String, ForeignKey

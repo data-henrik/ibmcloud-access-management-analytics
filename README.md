@@ -11,12 +11,14 @@ If you have worked with IBM Cloud and looked into security and compliance, you m
 
 ### Build the database
 
-When logged in to IBM Cloud, obtain an IAM access token (bearer token). Thereafter, run the script to build the database with access management data:
+When [logged in to IBM Cloud on the command line](https://cloud.ibm.com/docs/cli?topic=cli-ibmcloud_cli#ibmcloud_login), [obtain an IAM access token](https://cloud.ibm.com/docs/cli?topic=cli-ibmcloud_commands_iam#ibmcloud_iam_oauth_tokens) (bearer token). Thereafter, run the script to build the database with access management data:
 
 ```
 export IBMCLOUD_TOKEN=$(ibmcloud iam oauth-tokens --output json | jq -r '\''.iam_token'\'')
 python database.py
 ```
+
+It builds a SQLite database and stores it in the file **iaminsights.sqlite3**. 
 
 ### Run the reports
 

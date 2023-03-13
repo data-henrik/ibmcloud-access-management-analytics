@@ -1,5 +1,5 @@
 # Build a database with IBM Cloud access management data
-# for the account identified by its API key
+# for the account identified through the access token
 #
 # Written by 2023 Henrik Loeser, IBM, hloeser@de.ibm.com
 
@@ -28,14 +28,7 @@ if __name__== "__main__":
         print("Need IBM Cloud access token passed as environment variable IBMCLOUD_TOKEN.")
         exit
 
-    # credfile=sys.argv[1]
-
-    # print ("Reading credentials")
-    # apiKey=readApiKey(credfile)
-    # print ("generating auth tokens")
-    # authTokens=retrieve.getAuthTokens(api_key=apiKey)
-    # iam_token=authTokens["access_token"]   
-
+    
     # create database tables
     engine = create_engine("sqlite:///iaminsights.sqlite3")
     tables=CloudTables.CloudTables()
@@ -44,8 +37,6 @@ if __name__== "__main__":
     print ("Getting account details")
     token_data=extractAccount(iam_token)
     account_id=token_data["account"]["bss"]
-    #accDetails=retrieve.getIAMDetails(api_key=apiKey, iam_token=iam_token)
-    #account_id=accDetails['account_id']
 
     accounts_data=retrieve.getAccounts(iam_token)
         
@@ -58,7 +49,6 @@ if __name__== "__main__":
 
     with engine.begin() as connection:
         print ("inserting")
-        print(json.dumps(accounts_data))
         insert.insertAccounts(accounts_data['resources'], connection, tables.accounts)
         insert.insertUsers(user_data['resources'], connection, tables.users)
         insert.insertServiceIDs(serviceid_data['serviceids'], connection, tables.serviceids)
