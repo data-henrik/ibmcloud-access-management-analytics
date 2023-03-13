@@ -26,3 +26,7 @@ It builds a SQLite database and stores it in the file **iaminsights.sqlite3**.
 python reports.py
 ```
 
+![sample report](sample_report.png)
+
+## Contribute
+If you have an interesting query to share or improvements to add, please feel free to open a pull request. 
