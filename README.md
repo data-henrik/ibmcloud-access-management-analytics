@@ -34,12 +34,14 @@ erDiagram
     accounts ||--o{ resource_service_instances : has
     accounts ||--o{ policies : has
     access_groups ||..o{ policies : has
+    access_groups ||--|{ access_group_members : has
     resource_groups ||--o{ resource_service_instances : has
     trustedprofiles ||--o{ trustedprofile_links : has
-    trustedprofiles ||..o{ policies : has
-    users ||..o{ policies : has
-    serviceids ||..o{ policies : has
-    resource_service_instances ||..o{ policies : has
+    trustedprofiles ||..o{ policies : referenced_by
+    users ||..o{ policies : referenced_by
+    serviceids ||..o{ policies : referenced_by
+    resource_service_instances ||..o{ policies : referenced_by
+    resource_service_instances ||..o{ trustedprofile_links : referenced_by
     policies ||--|{ policy_subjects : has
     policies ||--|{ policy_resource_attributes : has
     policies ||--|{ policy_roles : has
@@ -65,21 +67,85 @@ erDiagram
         string account_id FK
     }
 
+    trustedprofiles {
+        string id PK
+        string iam_id
+        string name
+        string account_id FK
+    }
+
+    trustedprofile_links {
+        string id PK
+        string cr_type
+        string tp_id FK
+        string link_crn FK
+        string link_namespace
+        string link_name
+    }
+
+    access_groups {
+        string id PK
+        string name
+        string description
+        string created_by_id FK
+        string account_id FK
+    }
+
+    access_group_members {
+        string iam_id PK
+        string group_id PK
+        string type
+        string membership_type
+    }
+
+
     policies {
         string id PK
         string type
         string state
-        string created_by_id
+        string created_by_id FK
         string description
         string last_permit_ad
         string last_permit_frequency
-        string account_id PK
+        string account_id FK
     }
 
     policy_roles {
-        string policy_id PK
+        string policy_id PK,FK
         string role_id PK
         string display_name
+    }
+
+    policy_subjects {
+        string policy_id FK
+        string name
+        string value
+    }
+
+    policy_resource_attributes {
+        string policy_id FK
+        string name
+        string value        
+        string operator
+    }
+
+    resource_groups {
+        string resource_group_id PK
+        string crn
+        string account_id FK
+        string name
+    }
+
+    resource_service_instances {
+        string id PK
+        string guid
+        string crn
+        string resource_group_id FK
+        string account_id FK
+        string created_by FK
+        string updated_by FK
+        string name
+        string region_id
     }
 ```
 
