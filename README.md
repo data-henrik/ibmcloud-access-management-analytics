@@ -24,9 +24,6 @@ It builds a SQLite database and stores it in the file **iaminsights.sqlite3**.
 #### Entity-Relationship Diagram:
 
 ```mermaid
----
-title: Access management data
----
 erDiagram
     users }|--|{ accounts 
     serviceids }o--|| accounts
