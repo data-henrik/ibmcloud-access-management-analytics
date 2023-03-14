@@ -22,17 +22,21 @@ It builds a SQLite database and stores it in the file **iaminsights.sqlite3**.
 
 
 #### Entity-Relationship Diagram:
+A simplified view on the access management data:
 
 ```mermaid
 erDiagram
-    users }|--|{ accounts : belongs
-    serviceids }o--|| accounts : belongs
-    trustedprofiles }o--|| accounts : belongs
-    trustedprofile_links }o--|| trustedprofiles : belongs
-    access_groups }o--|| accounts : belongs
-    resource_groups }|--|| accounts : belongs
-    resource_service_instances }o--|| accounts : belongs
-    resource_service_instances }o--|| resource_groups : belongs
+    accounts }|--|{ users : has
+    accounts ||--o{ serviceids : has
+    accounts ||--o{ trustedprofiles : has
+    accounts ||--o{ access_groups : has
+    accounts ||--|{ resource_groups : has
+    accounts ||--o{ resource_service_instances : has
+    accounts ||--o{ policies : has
+    access_groups ||..o{ policies : has
+    resource_groups ||--o{ resource_service_instances : has
+    trustedprofiles ||--o{ trustedprofile_links : has
+
 ```
 
 
