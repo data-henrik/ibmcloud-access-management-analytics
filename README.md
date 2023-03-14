@@ -38,6 +38,8 @@ erDiagram
     trustedprofiles ||--o{ trustedprofile_links : has
     trustedprofiles ||..o{ policies : has
     users ||..o{ policies : has
+    serviceids ||..o{ policies : has
+    resource_service_instances ||..o{ policies : has
     policies ||--|{ policy_subjects : has
     policies ||--|{ policy_resource_attributes : has
     policies ||--|{ policy_roles : has
@@ -54,6 +56,30 @@ erDiagram
         string user_id
         string account_id FK
         string state
+    }
+
+    serviceids {
+        string id PK
+        string iam_id
+        string name
+        string account_id FK
+    }
+
+    policies {
+        string id PK
+        string type
+        string state
+        string created_by_id
+        string description
+        string last_permit_ad
+        string last_permit_frequency
+        string account_id PK
+    }
+
+    policy_roles {
+        string policy_id PK
+        string role_id PK
+        string display_name
     }
 ```
 
