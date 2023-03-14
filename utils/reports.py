@@ -45,10 +45,10 @@ and ag.id not in
  from policies p
 inner join policy_resource_attributes pra on p.id=pra.policy_id
 inner join policy_subjects ps on p.id=ps.policy_id
-where  ((pra.policy_id, pra.resource_id)  in
-(select pra2.policy_id, pra2.resource_id
+where  pra.policy_id in
+(select pra2.policy_id
 from policy_resource_attributes pra2
-where  pra2.name in ('serviceName', 'serviceType')))
+where  pra2.name in ('serviceName', 'serviceType'))
 and 
 ps.name='access_group_id')
 """,
@@ -65,10 +65,10 @@ and ag.id not in
  from policies p
 inner join policy_resource_attributes pra on p.id=pra.policy_id
 inner join policy_subjects ps on p.id=ps.policy_id
-where  ((pra.policy_id, pra.resource_id)  in
-(select pra2.policy_id, pra2.resource_id
+where  pra.policy_id  in
+(select pra2.policy_id
 from policy_resource_attributes pra2
-where  pra2.name in ('region','resourceGroupId')))
+where  pra2.name in ('region','resourceGroupId'))
 and 
 ps.name='access_group_id')
 """,

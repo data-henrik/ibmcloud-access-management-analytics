@@ -113,26 +113,20 @@ def insertAccessPolicies(policy_data, connection, tables, account_id):
                                 display_name=role.get('display_name')
             ))
         # go over resource attributes
-        res_id=0
         for res in item['resources']:
             for attr in res['attributes']:
                 connection.execute(insert(tables.policy_resource_attributes).values(
                                 policy_id=policy_id,
-                                resource_id=res_id,
                                 name=attr['name'],
                                 value=attr['value'],
                                 operator=attr.get('operator')
                 ))
-            res_id+=1
 
         # go over subject attributes
-        sub_id=0
         for sub in item['subjects']:
             for attr in sub['attributes']:
                 connection.execute(insert(tables.policy_subjects).values(
                                 policy_id=policy_id,
-                                subject_id=sub_id,
                                 name=attr['name'],
                                 value=attr['value'],
                 ))
-            sub_id+=1

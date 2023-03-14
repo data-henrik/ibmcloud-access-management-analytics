@@ -102,7 +102,6 @@ class CloudTables:
             "policy_resource_attributes",
             metadata_obj,
             Column("policy_id", String(60), ForeignKey("policies.id"), nullable=False),
-            Column("resource_id", String(128), nullable=False),
             Column("name", String(128), nullable=False),
             Column("value", String(128), nullable=False),
             Column("operator", String(128)),
@@ -112,7 +111,6 @@ class CloudTables:
             "policy_subjects",
             metadata_obj,
             Column("policy_id", String(60), ForeignKey("policies.id"), nullable=False),
-            Column("subject_id", String(128), nullable=False),
             Column("name", String(128), nullable=False),
             Column("value", String(128), nullable=False),
         )

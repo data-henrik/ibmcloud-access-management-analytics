@@ -36,7 +36,25 @@ erDiagram
     access_groups ||..o{ policies : has
     resource_groups ||--o{ resource_service_instances : has
     trustedprofiles ||--o{ trustedprofile_links : has
+    trustedprofiles ||..o{ policies : has
+    users ||..o{ policies : has
+    policies ||--|{ policy_subjects : has
+    policies ||--|{ policy_resource_attributes : has
+    policies ||--|{ policy_roles : has
 
+    accounts {
+        string account_id PK
+        string name
+        string owner
+    }
+
+    users {
+        string id PK
+        string iam_id
+        string user_id
+        string account_id FK
+        string state
+    }
 ```
 
 
