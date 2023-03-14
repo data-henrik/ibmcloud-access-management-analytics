@@ -111,7 +111,7 @@ erDiagram
     }
 
     policy_roles {
-        string policy_id PK,FK
+        string policy_id PK, FK
         string role_id PK
         string display_name
     }
