@@ -25,14 +25,14 @@ It builds a SQLite database and stores it in the file **iaminsights.sqlite3**.
 
 ```mermaid
 erDiagram
-    users }|--|{ accounts 
-    serviceids }o--|| accounts
-    trustedprofiles }o--|| accounts
-    trustedprofile_links }o--|| trustedprofiles
-    access_groups }o--|| accounts
-    resource_groups }|--|| accounts
-    resource_service_instances }o--|| accounts
-    resource_service_instances }o--|| resource_groups
+    users }|--|{ accounts : belongs
+    serviceids }o--|| accounts : belongs
+    trustedprofiles }o--|| accounts : belongs
+    trustedprofile_links }o--|| trustedprofiles : belongs
+    access_groups }o--|| accounts : belongs
+    resource_groups }|--|| accounts : belongs
+    resource_service_instances }o--|| accounts : belongs
+    resource_service_instances }o--|| resource_groups : belongs
 ```
 
 
