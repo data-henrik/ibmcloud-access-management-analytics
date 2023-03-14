@@ -20,6 +20,25 @@ python database.py
 
 It builds a SQLite database and stores it in the file **iaminsights.sqlite3**. 
 
+
+#### Entity-Relationship Diagram:
+
+```mermaid
+---
+title: Access management data
+---
+erDiagram
+    users }|--|{ accounts 
+    serviceids }o--|| accounts
+    trustedprofiles }o--|| accounts
+    trustedprofile_links }o--|| trustedprofiles
+    access_groups }o--|| accounts
+    resource_groups }|--|| accounts
+    resource_service_instances }o--|| accounts
+    resource_service_instances }o--|| resource_groups
+```
+
+
 ### Run the reports
 
 ```
