@@ -18,11 +18,12 @@ export IBMCLOUD_TOKEN=$(ibmcloud iam oauth-tokens --output json | jq -r '\''.iam
 python database.py
 ```
 
-It builds a SQLite database and stores it in the file **iaminsights.sqlite3**. 
+It builds a SQLite database and stores it in the file **iaminsights.sqlite3**. The same database file is later used by the reporting script.
 
+To rebuild the database, delete the database file, then run the above commands again.
 
 #### Entity-Relationship Diagram:
-A simplified view on the access management data:
+A simplified view on the access management data, based on the tables defined in [utils/CloudTables.py](utils/CloudTables.py):
 
 ```mermaid
 erDiagram
@@ -151,12 +152,22 @@ erDiagram
 
 
 ### Run the reports
+To obtain the configured reports, simply run the following command:
 
 ```
 python reports.py
 ```
 
+The following shows sample output from one of the included reports:
 ![sample report](sample_report.png)
+
+To modify which reports are run, change [reports.py](reports.py). The queries itself are defined in the file [utils/reports.py](utils/reports.py). You can add your own queries to the array of query objects. Each query is a JSON object consisting of a name, statement, and a description.
+
+### Ideas for enhancements
+Some ideas on how to enhance the existing scripting:
+- Integrate the **database.py** and **reports.py** scripts and add parameters to pick the actions
+- Use an in-memory database which does not persist the data.
+- Partial refresh of data. Only update from specified APIs instead of rebuilding everything.
 
 ## Contribute
 If you have an interesting query to share or improvements to add, please feel free to open a pull request. 

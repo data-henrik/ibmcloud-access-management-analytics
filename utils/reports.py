@@ -1,3 +1,9 @@
+# Configuration array with query objects
+# Each query has a name, statement (stmt), and description (desc).
+# Add a query by adding another object to the array.
+#
+# Written by 2023 Henrik Loeser, IBM, hloeser@de.ibm.com
+
 ACCOUNT_REPORTS=[{'name':'sql_reportUnreferencedServiceInstances',
             'stmt':"""
 ---which resources are not used in access policies

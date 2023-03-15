@@ -1,3 +1,6 @@
+# Helper class for database tables
+#
+# Written by 2023 Henrik Loeser, IBM, hloeser@de.ibm.com
 
 from sqlalchemy import MetaData
 from sqlalchemy import Table, Column, Integer, String, ForeignKey, PrimaryKeyConstraint
