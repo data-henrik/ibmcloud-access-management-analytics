@@ -9,6 +9,12 @@ If you have worked with IBM Cloud and looked into security and compliance, you m
 - IAM reports on [inactive identities](https://cloud.ibm.com/iam/inactive-identities) and [inactive policies](https://cloud.ibm.com/iam/inactive-policies)
 
 
+### Install requirements
+
+```
+pip install -r requirements.txt
+```
+
 ### Build the database
 
 When [logged in to IBM Cloud on the command line](https://cloud.ibm.com/docs/cli?topic=cli-ibmcloud_cli#ibmcloud_login), [obtain an IAM access token](https://cloud.ibm.com/docs/cli?topic=cli-ibmcloud_commands_iam#ibmcloud_iam_oauth_tokens) (bearer token). Thereafter, run the script to build the database with access management data:
@@ -165,8 +171,8 @@ To modify which reports are run, change [reports.py](reports.py). The queries it
 
 ### Ideas for enhancements
 Some ideas on how to enhance the existing scripting:
-- Integrate the **database.py** and **reports.py** scripts and add parameters to pick the actions
-- Use an in-memory database which does not persist the data.
+- Integrate the **database.py** and **reports.py** scripts and add parameters to pick the actions (see [build_and_report.py](build_and_report.py)).
+- Use an in-memory database which does not persist the data (see [build_and_report.py](build_and_report.py)).
 - Partial refresh of data. Only update from specified APIs instead of rebuilding everything.
 
 ## Contribute

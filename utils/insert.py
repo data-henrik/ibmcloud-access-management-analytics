@@ -1,3 +1,6 @@
+# functions to insert data into the database tables
+#
+# Written by 2023 Henrik Loeser, IBM, hloeser@de.ibm.com
 from sqlalchemy import create_engine, insert
 
 def insertAccounts(accDetails, connection, tablename):

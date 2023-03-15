@@ -4,8 +4,7 @@
 # Written by 2023 Henrik Loeser, IBM, hloeser@de.ibm.com
 
 import json, sys
-from sqlalchemy import MetaData, create_engine, insert, text
-from sqlalchemy import Table, Column, Integer, String, ForeignKey
+from sqlalchemy import create_engine, text
 from utils import reports
 
 def printColumnHeaders(keys):

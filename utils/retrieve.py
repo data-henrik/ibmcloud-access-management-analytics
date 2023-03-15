@@ -1,4 +1,7 @@
-import requests, json, sys
+# Helper function to retrieve data from the IBM Cloud APIs
+#
+# Written by 2023 Henrik Loeser, IBM, hloeser@de.ibm.com
+import requests
 from urllib.parse import urljoin
 
 
