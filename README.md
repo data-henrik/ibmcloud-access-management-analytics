@@ -1,6 +1,6 @@
 # IBM Cloud access management analytics
 
-IBM Cloud offers APIs to retrieve identity and access management data. We show how to analyze it to improve your cloud security setup.
+IBM Cloud offers [APIs to retrieve identity and access management data](https://cloud.ibm.com/docs?tab=api-docs&category=platform_services). We show how to analyze it to improve your cloud security setup.
 
 If you have worked with IBM Cloud and looked into security and compliance, you might have already used all the following information sources to improve account security:
 - Activity data logged to [Activity Tracker](https://cloud.ibm.com/observe/activitytracker)
@@ -8,6 +8,9 @@ If you have worked with IBM Cloud and looked into security and compliance, you m
 - Security posture analysis performed by the [IBM Cloud Security and Compliance Center](https://cloud.ibm.com/security-compliance/compliance-posture)
 - IAM reports on [inactive identities](https://cloud.ibm.com/iam/inactive-identities) and [inactive policies](https://cloud.ibm.com/iam/inactive-policies)
 
+By downloading and analyzing the [IBM Cloud access management data](https://cloud.ibm.com/docs?tab=api-docs&category=platform_services), you get an additional view on the security configuration. This helps to improve account security.
+
+*It is important to note that the analysis does not cover any dynamic membership rules or context- or time-based access decisions. Deciding on access as part of IAM processing requires more dynamic data. We don’t want to and cannot mimic IAM decision. The analysis only helps to find interesting spots in the security setup to investigate and possibly to improve.*
 
 ### Install requirements
 
@@ -174,6 +177,8 @@ Some ideas on how to enhance the existing scripting:
 - Integrate the **database.py** and **reports.py** scripts and add parameters to pick the actions (see [build_and_report.py](build_and_report.py)).
 - Use an in-memory database which does not persist the data (see [build_and_report.py](build_and_report.py)).
 - Partial refresh of data. Only update from specified APIs instead of rebuilding everything.
+- Support access management tags and resource tags.
+- Analyze which resources are governed by context-based restrictions.
 
 ## Contribute
 If you have an interesting query to share or improvements to add, please feel free to open a pull request. 
